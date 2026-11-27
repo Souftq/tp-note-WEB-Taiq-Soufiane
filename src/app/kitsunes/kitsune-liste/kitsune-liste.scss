@@ -24,17 +24,41 @@
     border-color: var(--accent);
   }
 
-  // Lueur orange pour les Kitsune boostés
+  // Lueur orange qui pulse pour les Kitsune boostés
   &.booste {
     border-color: var(--accent);
-    box-shadow: 0 0 12px var(--accent-lueur);
+    animation: lueur 1.6s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes lueur {
+  from {
+    box-shadow: 0 0 6px var(--accent-lueur);
+  }
+  to {
+    box-shadow: 0 0 22px var(--accent);
   }
 }
 
 // Les images ont un fin bord blanc : on les agrandit un peu et le cadre coupe ce qui dépasse
 .cadre {
+  position: relative;
   display: block;
   overflow: hidden;
+}
+
+// Petite flamme en haut à droite de l'image d'un Kitsune boosté
+.flamme {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0.35rem;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 55%);
+  fill: var(--accent);
+  filter: drop-shadow(0 0 6px var(--accent));
 }
 
 .illustration {

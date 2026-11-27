@@ -7,6 +7,13 @@
         @if (imageDe(kitsune.nom); as image) {
           <span class="cadre">
             <img class="illustration" [src]="image" [alt]="kitsune.nom" />
+            @if (kitsune.boost) {
+              <svg class="flamme" viewBox="0 0 24 24" aria-label="Boosté">
+                <path
+                  d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 1.5-5 3-6.5 0 2 1 3.5 2.5 4C12.5 9 13 6 12 2z"
+                />
+              </svg>
+            }
           </span>
         }
         <span class="infos">
