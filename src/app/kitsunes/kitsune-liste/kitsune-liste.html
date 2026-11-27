@@ -5,7 +5,9 @@
     <li>
       <a class="carte" [class.booste]="kitsune.boost" [routerLink]="['/kitsunes', kitsune.nom]">
         @if (imageDe(kitsune.nom); as image) {
-          <img class="illustration" [src]="image" [alt]="kitsune.nom" />
+          <span class="cadre">
+            <img class="illustration" [src]="image" [alt]="kitsune.nom" />
+          </span>
         }
         <span class="infos">
           <span class="nom">{{ kitsune.nom }}</span>

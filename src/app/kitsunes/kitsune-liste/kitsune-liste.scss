@@ -31,11 +31,18 @@
   }
 }
 
+// Les images ont un fin bord blanc : on les agrandit un peu et le cadre coupe ce qui dépasse
+.cadre {
+  display: block;
+  overflow: hidden;
+}
+
 .illustration {
   display: block;
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
+  transform: scale(1.08);
 }
 
 // Nom et état sous l'image (ou seuls si le Kitsune n'a pas d'image)
