@@ -35,7 +35,12 @@ export class KitsuneDetail implements OnInit {
   }
 
   protected tenterBoost(): void {
-    const reussi = this.gestionKitsunes.tenterBoost(this.nom());
+    const kitsune = this.kitsune();
+    if (!kitsune) {
+      return;
+    }
+    // On passe le vrai nom, pas celui de l'URL qui peut être écrit en minuscules
+    const reussi = this.gestionKitsunes.tenterBoost(kitsune.nom);
     if (!reussi) {
       this.essaisRates.update((essais) => essais + 1);
     }

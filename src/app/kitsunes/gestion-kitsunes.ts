@@ -4,6 +4,10 @@ import { Kitsune, NouveauKitsune } from './kitsune';
 const CHANCE_BOOST = 0.25;
 const DUREE_REPOS_MS = 60_000;
 
+function normaliser(nom: string): string {
+  return nom.trim().toLowerCase();
+}
+
 @Service()
 export class GestionKitsunes {
   private readonly listeKitsunes = signal<Kitsune[]>([
@@ -66,14 +70,15 @@ export class GestionKitsunes {
 
   public readonly kitsunes = this.listeKitsunes.asReadonly();
 
+  /** Même règle que pour l'unicité : /kitsunes/tenko affiche bien Tenko. */
   trouver(nom: string): Kitsune | undefined {
-    return this.listeKitsunes().find((kitsune) => kitsune.nom === nom);
+    const nomNormalise = normaliser(nom);
+    return this.listeKitsunes().find((kitsune) => normaliser(kitsune.nom) === nomNormalise);
   }
 
   /** La comparaison ignore la casse et les espaces autour : "tenko " est pris si "Tenko" existe. */
   nomDisponible(nom: string): boolean {
-    const nomNormalise = nom.trim().toLowerCase();
-    return !this.listeKitsunes().some((kitsune) => kitsune.nom.toLowerCase() === nomNormalise);
+    return this.trouver(nom) === undefined;
   }
 
   ajouter(nouveau: NouveauKitsune): void {
