@@ -4,12 +4,7 @@
   @for (kitsune of kitsunes(); track kitsune.nom) {
     <li>
       <a class="carte" [class.booste]="kitsune.boost" [routerLink]="['/kitsunes', kitsune.nom]">
-        <span class="nom">
-          {{ kitsune.nom }}
-          @if (kitsune.boost) {
-            <span class="badge-boost">Boosté</span>
-          }
-        </span>
+        <span class="nom">{{ kitsune.nom }}</span>
         <span class="etat" [class.en-repos]="kitsune.enRepos">
           {{ kitsune.enRepos ? 'En repos' : 'Disponible' }}
         </span>

@@ -47,7 +47,8 @@ button {
   }
 }
 
-// Utilisé sur la liste, le détail et la bataille pour repérer un Kitsune boosté
+// Utilisé sur le détail et la bataille pour repérer un Kitsune boosté
+// (sur la liste, seule la bordure lumineuse le signale : le sujet n'y autorise que nom et enRepos)
 .badge-boost {
   display: inline-block;
   padding: 0.1rem 0.5rem;
