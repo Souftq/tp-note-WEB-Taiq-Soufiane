@@ -37,10 +37,17 @@ Tout ce que demande le sujet est implémenté :
   - les PV restent à leur valeur initiale, le boost est remis à `false` et la sélection est vidée.
 - [x] **Navigation** : barre collée en haut de la page, même au défilement.
 
+## Bonus (branche `bonus`, non notés)
+
+- [x] **Sauvegarde** : la liste est enregistrée dans le `localStorage` et relue au démarrage.
+- [x] **Podium** sur la page d'accueil (`/accueil`) : les 3 meilleurs Kitsune, classés par victoires par
+      défaut. Des boutons permettent de changer de critère : le plus résistant (PV), le plus fort, le plus rapide.
+
 ## Arborescence
 
 ```
 src/app
+├── accueil/                   page d'accueil avec le podium (bonus)
 ├── kitsunes/                  fonctionnalité "Kitsune"
 │   ├── kitsune.ts             interface Kitsune + type NouveauKitsune
 │   ├── gestion-kitsunes.ts    service : données et règles métier

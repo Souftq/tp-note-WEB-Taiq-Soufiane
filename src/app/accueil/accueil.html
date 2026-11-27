@@ -1,0 +1,23 @@
+<h1>Podium des Kitsune</h1>
+
+<div class="criteres">
+  @for (option of criteres; track option.valeur) {
+    <button
+      type="button"
+      [class.actif]="critere() === option.valeur"
+      (click)="critere.set(option.valeur)"
+    >
+      {{ option.libelle }}
+    </button>
+  }
+</div>
+
+<ol class="podium">
+  @for (kitsune of podium(); track kitsune.nom; let rang = $index) {
+    <li [class]="'place-' + (rang + 1)">
+      <a [routerLink]="['/kitsunes', kitsune.nom]">{{ kitsune.nom }}</a>
+      <span class="valeur">{{ kitsune[critere()] }} {{ unite() }}</span>
+      <span class="marche">{{ rang + 1 }}</span>
+    </li>
+  }
+</ol>

@@ -1,0 +1,83 @@
+.criteres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+
+  button {
+    background: var(--fond-carte);
+    color: var(--texte);
+    border: 2px solid var(--bordure);
+
+    &.actif {
+      border-color: var(--accent);
+      background: var(--accent-leger);
+    }
+  }
+}
+
+// Le 1er au milieu, le 2e à gauche, le 3e à droite, comme un vrai podium
+.podium {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.75rem;
+
+  li {
+    flex: 1;
+    max-width: 12rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    text-align: center;
+  }
+
+  a {
+    font-weight: 600;
+    color: var(--texte);
+  }
+
+  .valeur {
+    font-size: 0.85rem;
+    color: var(--texte-discret);
+  }
+
+  .marche {
+    width: 100%;
+    padding-top: 0.5rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    background: var(--accent);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .place-1 {
+    order: 2;
+
+    .marche {
+      height: 9rem;
+    }
+  }
+
+  .place-2 {
+    order: 1;
+
+    .marche {
+      height: 6rem;
+      opacity: 0.85;
+    }
+  }
+
+  .place-3 {
+    order: 3;
+
+    .marche {
+      height: 4rem;
+      opacity: 0.7;
+    }
+  }
+}
