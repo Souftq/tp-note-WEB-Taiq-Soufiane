@@ -30,7 +30,7 @@ Tout ce que demande le sujet est implémenté :
       `victoires = 0`, `boost = false`. Un nom déjà pris est refusé.
 - [x] **Introuvable** : titre « Kitsune non trouvé », message demandé et lien vers la liste.
 - [x] **Bataille** (`/bataille`) :
-  - seuls les Kitsune disponibles combattent ;
+  - seuls les Kitsune disponibles combattent ; s'il en reste moins de deux, un message le signale ;
   - le bouton « Combat ! » apparaît une fois deux Kitsune choisis, et il est désactivé pendant le combat ;
   - le résultat s'affiche après 3 secondes ;
   - le perdant se repose 1 minute ;
@@ -93,7 +93,8 @@ Le vainqueur est calculé tout de suite, mais le résultat n'est affiché et enr
 Le perdant passe en repos, et un `setTimeout` le rend de nouveau disponible au bout d'une minute.
 
 **Formulaire.** Il utilise les Signal Forms : le modèle est un signal, et les validateurs sont déclarés dans
-le schéma TS (champ obligatoire, longueur maximale, minimum à 1, nom unique via `validate`). Les attributs
+le schéma TS (champ obligatoire, longueur maximale, minimum à 1, nom unique et nom qui ne contient pas que des
+espaces via `validate`). Les attributs
 `enRepos`, `victoires` et `boost` ne sont pas dans le formulaire : ils prennent leur valeur par défaut dans
 `GestionKitsunes.ajouter`.
 
