@@ -1,59 +1,81 @@
-# KitsunesBattle
+# 🦊 Kitsunes Battle
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.3.0.
+Évaluation pratique de Programmation Front-End (ENSIM 4A FISA, 2026).
+Application Angular 22 (SCSS, sans SSR) qui permet de consulter, créer, booster et faire combattre des Kitsune.
 
-## Development server
-
-To start a local development server, run:
+## Lancer le projet
 
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Puis ouvrir http://localhost:4200.
 
-## Code scaffolding
+## Arborescence
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+src/app
+├── kitsunes/                  fonctionnalité "Kitsune"
+│   ├── kitsune.ts             interface Kitsune + type NouveauKitsune
+│   ├── gestion-kitsunes.ts    service : données et règles métier
+│   ├── kitsune-liste/         écran Liste
+│   ├── kitsune-detail/        écran Détails (+ boost)
+│   ├── kitsune-ajout/         écran Ajout (formulaire)
+│   └── kitsune-introuvable/   écran affiché quand le Kitsune n'existe pas
+├── bataille/
+│   ├── bataille.*             écran Bataille
+│   └── combat.ts              déroulé d'un combat (fonction pure)
+├── shared/
+│   ├── navigation/            barre de navigation
+│   └── erreurs-champ/         affichage des erreurs d'un champ de formulaire
+├── app.routes.ts
+└── app.*                      composant racine
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+J'ai rangé les fichiers par fonctionnalité, comme vu en cours, avec un dossier `shared` pour ce qui sert partout.
 
-```bash
-ng generate --help
-```
+## Choix techniques
 
-## Building
+**Données dans un service.** `GestionKitsunes` garde la liste dans un signal privé et n'expose qu'une version
+en lecture seule (`asReadonly()`). Toute modification passe par une méthode du service (`ajouter`,
+`tenterBoost`, `enregistrerCombat`) : les composants ne peuvent pas modifier la liste par erreur.
+Les mises à jour se font sans muter les objets (`map` + spread), sinon les `computed` ne verraient pas le changement.
 
-To build the project run:
+**Le nom comme identifiant.** Le sujet impose un nom unique et ne prévoit pas d'`id`. Plutôt que d'ajouter
+un champ, j'utilise le nom dans l'URL : `/kitsunes/Akane`. La vérification d'unicité ignore la casse et les
+espaces (`"akane "` est refusé si `Akane` existe).
 
-```bash
-ng build
-```
+**Écran "introuvable" dans le détail.** Le composant `KitsuneIntrouvable` est affiché par `KitsuneDetail` dans
+un `@else` quand le nom ne correspond à rien. L'URL reste celle demandée, ce qui me paraît plus honnête pour
+l'utilisateur qu'une redirection. Une URL complètement inconnue renvoie vers la liste.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+**Boost.** Le tirage (25 %) est fait dans le service. Le compteur d'échecs, lui, est un état d'écran : il vit
+dans le composant et repart à zéro quand on revient sur la page. Le bouton se bloque quand le Kitsune est
+boosté (au chargement ou juste après un tirage réussi) ou après 3 échecs d'affilée.
 
-## Running unit tests
+**Combat.** `simulerCombat` est une fonction pure, isolée dans `combat.ts` : elle ne dépend pas d'Angular et
+se lit de haut en bas. Elle travaille sur des copies des PV (doublés si boost), donc les PV d'origine ne sont
+jamais touchés : c'est ce qui assure la règle « remettre les PV à leurs valeurs initiales ».
+Le vainqueur est calculé tout de suite, mais le résultat n'est affiché et enregistré qu'après 3 secondes.
+Le perdant passe en repos et un `setTimeout` le remet disponible au bout d'une minute.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+**Formulaire.** J'ai utilisé les Signal Forms (vus en dernier en cours) : le modèle est un signal, les
+validateurs sont déclarés dans le schéma TS (obligatoire, longueur max, minimum à 1, nom unique via
+`validate`). Les attributs `enRepos`, `victoires` et `boost` ne sont pas dans le formulaire, ils prennent leur
+valeur par défaut dans `GestionKitsunes.ajouter`.
 
-```bash
-ng test
-```
+**Barre de navigation collée en haut.** `position: sticky` sur le composant hôte (`:host`).
 
-## Running end-to-end tests
+## Difficultés rencontrées
 
-For end-to-end (e2e) testing, run:
+- Avec les Signal Forms, Angular refuse les attributs de validation HTML (`min="1"`) sur un champ relié par
+  `[formField]` (erreur NG8022). La validation doit être déclarée uniquement dans le schéma TS.
+- Une force de 0 rendrait le combat infini. Plutôt que d'ajouter une protection dans la boucle, j'empêche ce
+  cas à la source : le formulaire impose une force d'au moins 1.
 
-```bash
-ng e2e
-```
+## Limites connues
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Les données sont en mémoire : un rechargement de la page remet la liste de départ.
+- Si l'on quitte l'écran Bataille pendant les 3 secondes, le combat est quand même enregistré
+  (il a déjà eu lieu), on ne voit simplement pas le message de résultat.
