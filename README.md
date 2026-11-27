@@ -1,4 +1,4 @@
-# 🦊 Kitsunes Battle
+# Kitsunes Battle
 
 Évaluation pratique de Programmation Front-End (ENSIM 4A FISA, 2026).
 Application Angular 22 (SCSS, sans SSR) qui permet de consulter, créer, booster et faire combattre des Kitsune.

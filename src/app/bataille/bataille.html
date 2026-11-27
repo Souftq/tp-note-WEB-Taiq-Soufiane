@@ -15,7 +15,7 @@
       <span class="nom">
         {{ kitsune.nom }}
         @if (kitsune.boost) {
-          🔥
+          <span class="badge-boost">Boosté</span>
         }
       </span>
       <span class="stats">
@@ -34,13 +34,13 @@
 }
 
 @if (combatEnCours()) {
-  <p class="message en-cours">Le combat fait rage… ⚔️</p>
+  <p class="message en-cours">Le combat fait rage…</p>
 }
 
 @if (resultat(); as resultat) {
   <div class="message resultat">
     <p>
-      🏆 <strong>{{ resultat.gagnant.nom }}</strong> remporte le combat contre
+      <strong>{{ resultat.gagnant.nom }}</strong> remporte le combat contre
       <strong>{{ resultat.perdant.nom }}</strong> en {{ resultat.nbAttaques }} attaques.
     </p>
     <p>{{ resultat.perdant.nom }} part se reposer pendant une minute.</p>
