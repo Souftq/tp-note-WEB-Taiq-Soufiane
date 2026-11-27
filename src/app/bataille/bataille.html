@@ -22,14 +22,19 @@
       "
       (click)="basculerSelection(kitsune.nom)"
     >
-      <span class="nom">
-        {{ kitsune.nom }}
-        @if (kitsune.boost) {
-          <span class="badge-boost">Boosté</span>
-        }
-      </span>
-      <span class="stats">
-        PV {{ kitsune.pv }} · Force {{ kitsune.force }} · Vitesse {{ kitsune.vitesse }}
+      @if (imageDe(kitsune.nom); as image) {
+        <img class="vignette" [src]="image" alt="" />
+      }
+      <span class="texte">
+        <span class="nom">
+          {{ kitsune.nom }}
+          @if (kitsune.boost) {
+            <span class="badge-boost">Boosté</span>
+          }
+        </span>
+        <span class="stats">
+          PV {{ kitsune.pv }} · Force {{ kitsune.force }} · Vitesse {{ kitsune.vitesse }}
+        </span>
       </span>
     </button>
   }

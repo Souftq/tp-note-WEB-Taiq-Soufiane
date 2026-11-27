@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { GestionKitsunes } from '../kitsunes/gestion-kitsunes';
+import { imageDe } from '../kitsunes/images-kitsunes';
 import { ResultatCombat, simulerCombat } from './combat';
 
 const DELAI_RESULTAT_MS = 3000;
@@ -11,6 +12,7 @@ const DELAI_RESULTAT_MS = 3000;
 })
 export class Bataille {
   private readonly gestionKitsunes = inject(GestionKitsunes);
+  protected readonly imageDe = imageDe;
 
   protected readonly disponibles = computed(() =>
     this.gestionKitsunes.kitsunes().filter((kitsune) => !kitsune.enRepos),
