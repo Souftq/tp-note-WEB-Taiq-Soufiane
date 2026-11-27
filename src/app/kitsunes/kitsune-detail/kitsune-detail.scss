@@ -1,0 +1,71 @@
+.fiche {
+  max-width: 40rem;
+  margin-inline: auto;
+  padding: 1.5rem;
+  border: 2px solid var(--bordure);
+  border-radius: var(--arrondi);
+  background: var(--fond-carte);
+
+  &.booste {
+    border-color: var(--accent);
+    box-shadow: 0 0 16px var(--accent-lueur);
+  }
+
+  a {
+    color: var(--accent);
+  }
+}
+
+h1 {
+  margin-top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.badge-boost {
+  font-size: 0.9rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+}
+
+.description {
+  font-style: italic;
+  color: var(--texte-discret);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 0.75rem;
+  margin-block: 1.5rem;
+
+  div {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background: var(--fond);
+    text-align: center;
+  }
+
+  dt {
+    font-size: 0.8rem;
+    color: var(--texte-discret);
+  }
+
+  dd {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+}
+
+.boost {
+  margin-bottom: 1.5rem;
+}
+
+.echec {
+  color: var(--erreur);
+}

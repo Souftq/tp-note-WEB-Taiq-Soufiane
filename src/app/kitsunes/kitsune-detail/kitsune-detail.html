@@ -1,0 +1,59 @@
+@if (kitsune(); as kitsune) {
+  <article class="fiche" [class.booste]="kitsune.boost">
+    <h1>
+      {{ kitsune.nom }}
+      @if (kitsune.boost) {
+        <span class="badge-boost">🔥 Boosté</span>
+      }
+    </h1>
+
+    <p class="description">{{ kitsune.description }}</p>
+
+    <dl class="stats">
+      <div>
+        <dt>PV</dt>
+        <dd>{{ kitsune.pv }}</dd>
+      </div>
+      <div>
+        <dt>Force</dt>
+        <dd>{{ kitsune.force }}</dd>
+      </div>
+      <div>
+        <dt>Vitesse</dt>
+        <dd>{{ kitsune.vitesse }}</dd>
+      </div>
+      <div>
+        <dt>Victoires</dt>
+        <dd>{{ kitsune.victoires }}</dd>
+      </div>
+      <div>
+        <dt>État</dt>
+        <dd>{{ kitsune.enRepos ? 'En repos' : 'Disponible' }}</dd>
+      </div>
+      <div>
+        <dt>Boost</dt>
+        <dd>{{ kitsune.boost ? 'Oui' : 'Non' }}</dd>
+      </div>
+    </dl>
+
+    <div class="boost">
+      <button type="button" (click)="tenterBoost()" [disabled]="boostBloque()">
+        Tenter un boost
+      </button>
+
+      @if (kitsune.boost) {
+        <p>{{ kitsune.nom }} est boosté : ses PV seront doublés au prochain combat.</p>
+      } @else if (essaisRates() >= essaisMax) {
+        <p class="echec">
+          Trois échecs d'affilée… {{ kitsune.nom }} n'a plus d'énergie pour aujourd'hui.
+        </p>
+      } @else if (essaisRates() > 0) {
+        <p class="echec">Raté ! ({{ essaisRates() }}/{{ essaisMax }})</p>
+      }
+    </div>
+
+    <a routerLink="/kitsunes">← Retour à la liste</a>
+  </article>
+} @else {
+  <app-kitsune-introuvable />
+}
