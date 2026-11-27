@@ -42,6 +42,8 @@ Tout ce que demande le sujet est implémenté :
 - [x] **Sauvegarde** : la liste est enregistrée dans le `localStorage` et relue au démarrage.
 - [x] **Podium** sur la page d'accueil (`/accueil`) : les 3 meilleurs Kitsune, classés par victoires par
       défaut. Des boutons permettent de changer de critère : le plus résistant (PV), le plus fort, le plus rapide.
+- [x] **Illustrations** des 5 Kitsune de départ sur la liste et sur la bataille. Un Kitsune boosté a une
+      petite flamme et une lueur animée.
 
 ## Arborescence
 
@@ -51,6 +53,7 @@ src/app
 ├── kitsunes/                  fonctionnalité "Kitsune"
 │   ├── kitsune.ts             interface Kitsune + type NouveauKitsune
 │   ├── gestion-kitsunes.ts    service : données et règles métier
+│   ├── images-kitsunes.ts     correspondance nom → illustration (bonus)
 │   ├── kitsune-liste/         écran Liste
 │   ├── kitsune-detail/        écran Détails (+ boost)
 │   ├── kitsune-ajout/         écran Ajout (formulaire)
