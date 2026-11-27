@@ -118,6 +118,7 @@ le schéma TS (champ obligatoire, longueur maximale, minimum à 1, nom unique vi
 
 ## Limites connues
 
-- Les données sont en mémoire : un rechargement de la page remet la liste de départ.
+- Les Kitsune sont sauvegardés dans le `localStorage` (bonus). Les minuteurs de repos, eux, ne survivent pas à
+  un rechargement : tous les Kitsune redeviennent disponibles.
 - Si l'on quitte l'écran Bataille pendant les 3 secondes, le combat est quand même enregistré, puisqu'il a
   déjà eu lieu. On ne voit simplement pas le message de résultat.
