@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { ValidationError } from '@angular/forms/signals';
 
-/** Affiche les messages d'erreur d'un champ, une fois que l'utilisateur l'a touché. */
+// Affiche les erreurs d'un champ une fois qu'il a été touché
 @Component({
   selector: 'app-erreurs-champ',
   templateUrl: './erreurs-champ.html',

@@ -6,7 +6,7 @@ export interface ResultatCombat {
   nbAttaques: number;
 }
 
-/** Un Kitsune pendant le combat, avec ses PV du moment (copie, l'original n'est pas touché). */
+// Copie du Kitsune pour le combat, ses PV d'origine ne bougent pas
 interface Combattant {
   kitsune: Kitsune;
   pv: number;
@@ -16,7 +16,7 @@ export function simulerCombat(premier: Kitsune, second: Kitsune): ResultatCombat
   let [attaquant, defenseur] = ordreDePassage(entrerDansLArene(premier), entrerDansLArene(second));
   let nbAttaques = 0;
 
-  // Se termine forcément : la force minimale d'un Kitsune est de 1
+  // Pas de boucle infinie : la force vaut au moins 1
   while (true) {
     defenseur.pv -= attaquant.kitsune.force;
     nbAttaques++;
@@ -33,7 +33,7 @@ function entrerDansLArene(kitsune: Kitsune): Combattant {
   return { kitsune, pv: kitsune.boost ? kitsune.pv * 2 : kitsune.pv };
 }
 
-/** Le plus rapide attaque en premier ; à vitesse égale, on tire au sort. */
+// Le plus rapide commence, en cas d'égalité on tire au sort
 function ordreDePassage(a: Combattant, b: Combattant): [Combattant, Combattant] {
   const ecart = a.kitsune.vitesse - b.kitsune.vitesse;
   const aCommence = ecart === 0 ? Math.random() < 0.5 : ecart > 0;

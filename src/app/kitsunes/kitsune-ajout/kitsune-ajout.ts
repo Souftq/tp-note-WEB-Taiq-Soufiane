@@ -46,7 +46,7 @@ export class KitsuneAjout {
 
       required(champs.description, { message: 'Une petite description est obligatoire.' });
 
-      // Une force de 0 rendrait le combat infini, d'où le minimum à 1 partout
+      // Avec une force à 0, le combat ne finirait jamais
       required(champs.pv, { message: 'Les PV sont obligatoires.' });
       min(champs.pv, 1, { message: 'Les PV doivent valoir au moins 1.' });
       required(champs.force, { message: 'La force est obligatoire.' });

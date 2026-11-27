@@ -7,7 +7,7 @@ import { Bataille } from './bataille/bataille';
 export const routes: Routes = [
   { path: '', redirectTo: '/kitsunes', pathMatch: 'full' },
   { path: 'kitsunes', component: KitsuneListe },
-  // Le nom étant unique, il sert d'identifiant dans l'URL
+  // Le nom est unique, on s'en sert dans l'URL
   { path: 'kitsunes/:nom', component: KitsuneDetail },
   { path: 'ajout', component: KitsuneAjout },
   { path: 'bataille', component: Bataille },

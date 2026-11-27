@@ -21,13 +21,13 @@ export class KitsuneDetail implements OnInit {
   protected readonly essaisRates = signal(0);
   protected readonly essaisMax = ESSAIS_MAX;
 
-  // Bloqué si déjà boosté (au chargement ou après un tirage réussi) ou après 3 échecs d'affilée
+  // Bloqué si déjà boosté ou après 3 échecs de suite
   protected readonly boostBloque = computed(
     () => this.kitsune()?.boost === true || this.essaisRates() >= ESSAIS_MAX,
   );
 
   ngOnInit(): void {
-    // Abonnement plutôt que snapshot : le composant reste le même si seul le :nom change
+    // subscribe plutôt que snapshot pour suivre les changements de :nom
     this.route.paramMap.subscribe((params) => {
       this.nom.set(params.get('nom') ?? '');
       this.essaisRates.set(0);
@@ -39,7 +39,7 @@ export class KitsuneDetail implements OnInit {
     if (!kitsune) {
       return;
     }
-    // On passe le vrai nom, pas celui de l'URL qui peut être écrit en minuscules
+    // On prend le vrai nom, celui de l'URL peut être en minuscules
     const reussi = this.gestionKitsunes.tenterBoost(kitsune.nom);
     if (!reussi) {
       this.essaisRates.update((essais) => essais + 1);

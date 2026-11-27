@@ -1,4 +1,4 @@
-// Le composant hôte est collé en haut : la barre reste visible au scroll
+// sticky pour que la barre reste en haut quand on scrolle
 :host {
   position: sticky;
   top: 0;

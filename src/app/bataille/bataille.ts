@@ -17,7 +17,7 @@ export class Bataille {
   );
   protected readonly assezDeCombattants = computed(() => this.disponibles().length >= 2);
 
-  /** Noms des Kitsune choisis (2 au maximum). */
+  // Les noms des Kitsune choisis (2 max)
   protected readonly selection = signal<string[]>([]);
   protected readonly selectionComplete = computed(() => this.selection().length === 2);
 
@@ -51,7 +51,7 @@ export class Bataille {
 
     const resultat = simulerCombat(combattants[0], combattants[1]);
 
-    // Le vainqueur est déjà connu, on laisse juste monter le suspense
+    // Le gagnant est déjà calculé, on attend juste 3 s avant de l'afficher
     setTimeout(() => {
       this.gestionKitsunes.enregistrerCombat(resultat.gagnant, resultat.perdant);
       this.resultat.set(resultat);

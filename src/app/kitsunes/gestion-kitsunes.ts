@@ -70,13 +70,13 @@ export class GestionKitsunes {
 
   public readonly kitsunes = this.listeKitsunes.asReadonly();
 
-  /** Même règle que pour l'unicité : /kitsunes/tenko affiche bien Tenko. */
+  // Sans tenir compte des majuscules : /kitsunes/tenko trouve Tenko
   trouver(nom: string): Kitsune | undefined {
     const nomNormalise = normaliser(nom);
     return this.listeKitsunes().find((kitsune) => normaliser(kitsune.nom) === nomNormalise);
   }
 
-  /** La comparaison ignore la casse et les espaces autour : "tenko " est pris si "Tenko" existe. */
+  // "tenko " est refusé si Tenko existe déjà
   nomDisponible(nom: string): boolean {
     return this.trouver(nom) === undefined;
   }
@@ -92,7 +92,7 @@ export class GestionKitsunes {
     this.listeKitsunes.update((liste) => [...liste, kitsune]);
   }
 
-  /** Tire au sort le boost. Renvoie true si le Kitsune est désormais boosté. */
+  // 25 % de chance, renvoie true si le boost a marché
   tenterBoost(nom: string): boolean {
     const reussi = Math.random() < CHANCE_BOOST;
     if (reussi) {
@@ -101,10 +101,7 @@ export class GestionKitsunes {
     return reussi;
   }
 
-  /**
-   * Les PV ne sont jamais modifiés ici : le combat travaille sur des copies,
-   * donc ils restent à leur valeur initiale après la bataille.
-   */
+  // On ne touche pas aux PV : le combat a travaillé sur des copies
   enregistrerCombat(gagnant: Kitsune, perdant: Kitsune): void {
     this.listeKitsunes.update((liste) =>
       liste.map((kitsune) => {
