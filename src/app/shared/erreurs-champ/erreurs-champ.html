@@ -1,0 +1,7 @@
+@if (visible()) {
+  <ul class="erreurs">
+    @for (erreur of erreurs(); track erreur.kind) {
+      <li>{{ erreur.message }}</li>
+    }
+  </ul>
+}

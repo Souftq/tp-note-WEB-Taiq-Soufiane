@@ -1,0 +1,48 @@
+.formulaire {
+  max-width: 40rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.ligne {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+label {
+  font-weight: 600;
+}
+
+input,
+textarea {
+  padding: 0.5rem;
+  border: 1px solid var(--bordure);
+  border-radius: 0.5rem;
+  background: var(--fond-carte);
+  color: inherit;
+  font: inherit;
+
+  &:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+}
+
+.info {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--texte-discret);
+}
+
+button {
+  align-self: flex-start;
+}

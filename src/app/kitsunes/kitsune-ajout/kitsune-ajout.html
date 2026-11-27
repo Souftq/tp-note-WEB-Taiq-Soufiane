@@ -1,0 +1,54 @@
+<h1>Ajouter un Kitsune</h1>
+
+<form class="formulaire" [formRoot]="formulaire">
+  <div class="champ">
+    <label for="nom">Nom</label>
+    <input id="nom" type="text" placeholder="Ex : Tsuki" [formField]="formulaire.nom" />
+    <app-erreurs-champ
+      [erreurs]="formulaire.nom().errors()"
+      [visible]="formulaire.nom().touched()"
+    />
+  </div>
+
+  <div class="champ">
+    <label for="description">Description</label>
+    <textarea id="description" rows="3" [formField]="formulaire.description"></textarea>
+    <app-erreurs-champ
+      [erreurs]="formulaire.description().errors()"
+      [visible]="formulaire.description().touched()"
+    />
+  </div>
+
+  <div class="ligne">
+    <div class="champ">
+      <label for="pv">PV</label>
+      <input id="pv" type="number" [formField]="formulaire.pv" />
+      <app-erreurs-champ
+        [erreurs]="formulaire.pv().errors()"
+        [visible]="formulaire.pv().touched()"
+      />
+    </div>
+
+    <div class="champ">
+      <label for="force">Force</label>
+      <input id="force" type="number" [formField]="formulaire.force" />
+      <app-erreurs-champ
+        [erreurs]="formulaire.force().errors()"
+        [visible]="formulaire.force().touched()"
+      />
+    </div>
+
+    <div class="champ">
+      <label for="vitesse">Vitesse</label>
+      <input id="vitesse" type="number" [formField]="formulaire.vitesse" />
+      <app-erreurs-champ
+        [erreurs]="formulaire.vitesse().errors()"
+        [visible]="formulaire.vitesse().touched()"
+      />
+    </div>
+  </div>
+
+  <p class="info">Le nouveau Kitsune commence disponible, sans victoire et sans boost.</p>
+
+  <button type="submit" [disabled]="formulaire().invalid()">Créer le Kitsune</button>
+</form>
