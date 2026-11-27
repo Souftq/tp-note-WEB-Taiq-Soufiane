@@ -1,0 +1,72 @@
+.consigne {
+  color: var(--texte-discret);
+}
+
+.arene {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 1rem;
+  margin-block: 1.5rem;
+}
+
+.combattant {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  padding: 1rem;
+  border: 2px solid var(--bordure);
+  border-radius: var(--arrondi);
+  background: var(--fond-carte);
+  color: inherit;
+  text-align: left;
+
+  &.booste {
+    box-shadow: 0 0 10px var(--accent-lueur);
+  }
+
+  &.selectionne {
+    border-color: var(--accent);
+    background: var(--accent-leger);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.nom {
+  font-weight: 600;
+}
+
+.stats {
+  font-size: 0.85rem;
+  color: var(--texte-discret);
+}
+
+.bouton-combat {
+  font-size: 1.2rem;
+  padding: 0.75rem 2rem;
+}
+
+.message {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: var(--arrondi);
+
+  p {
+    margin: 0.25rem 0;
+  }
+}
+
+.en-cours {
+  background: var(--accent-leger);
+}
+
+.resultat {
+  border: 2px solid var(--succes);
+}
+
+.vide {
+  color: var(--texte-discret);
+}

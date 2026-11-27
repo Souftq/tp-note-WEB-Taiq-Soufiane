@@ -1,0 +1,48 @@
+<h1>Bataille</h1>
+<p class="consigne">Choisis deux Kitsune disponibles, puis lance le combat.</p>
+
+<div class="arene">
+  @for (kitsune of disponibles(); track kitsune.nom) {
+    <button
+      type="button"
+      class="combattant"
+      [class.selectionne]="estSelectionne(kitsune.nom)"
+      [class.booste]="kitsune.boost"
+      [attr.aria-pressed]="estSelectionne(kitsune.nom)"
+      [disabled]="combatEnCours() || (selectionComplete() && !estSelectionne(kitsune.nom))"
+      (click)="basculerSelection(kitsune.nom)"
+    >
+      <span class="nom">
+        {{ kitsune.nom }}
+        @if (kitsune.boost) {
+          🔥
+        }
+      </span>
+      <span class="stats">
+        PV {{ kitsune.pv }} · Force {{ kitsune.force }} · Vitesse {{ kitsune.vitesse }}
+      </span>
+    </button>
+  } @empty {
+    <p class="vide">Tous les Kitsune se reposent. Reviens dans une minute !</p>
+  }
+</div>
+
+@if (selectionComplete()) {
+  <button type="button" class="bouton-combat" [disabled]="combatEnCours()" (click)="lancerCombat()">
+    Combat !
+  </button>
+}
+
+@if (combatEnCours()) {
+  <p class="message en-cours">Le combat fait rage… ⚔️</p>
+}
+
+@if (resultat(); as resultat) {
+  <div class="message resultat">
+    <p>
+      🏆 <strong>{{ resultat.gagnant.nom }}</strong> remporte le combat contre
+      <strong>{{ resultat.perdant.nom }}</strong> en {{ resultat.nbAttaques }} attaques.
+    </p>
+    <p>{{ resultat.perdant.nom }} part se reposer pendant une minute.</p>
+  </div>
+}
