@@ -4,9 +4,14 @@
   @for (kitsune of kitsunes(); track kitsune.nom) {
     <li>
       <a class="carte" [class.booste]="kitsune.boost" [routerLink]="['/kitsunes', kitsune.nom]">
-        <span class="nom">{{ kitsune.nom }}</span>
-        <span class="etat" [class.en-repos]="kitsune.enRepos">
-          {{ kitsune.enRepos ? 'En repos' : 'Disponible' }}
+        @if (imageDe(kitsune.nom); as image) {
+          <img class="illustration" [src]="image" [alt]="kitsune.nom" />
+        }
+        <span class="infos">
+          <span class="nom">{{ kitsune.nom }}</span>
+          <span class="etat" [class.en-repos]="kitsune.enRepos">
+            {{ kitsune.enRepos ? 'En repos' : 'Disponible' }}
+          </span>
         </span>
       </a>
     </li>
