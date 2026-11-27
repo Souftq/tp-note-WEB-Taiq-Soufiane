@@ -15,6 +15,7 @@ export class Bataille {
   protected readonly disponibles = computed(() =>
     this.gestionKitsunes.kitsunes().filter((kitsune) => !kitsune.enRepos),
   );
+  protected readonly assezDeCombattants = computed(() => this.disponibles().length >= 2);
 
   /** Noms des Kitsune choisis (2 au maximum). */
   protected readonly selection = signal<string[]>([]);
