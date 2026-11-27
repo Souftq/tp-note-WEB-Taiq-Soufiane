@@ -1,16 +1,41 @@
 # Kitsunes Battle
 
-Évaluation pratique de Programmation Front-End (ENSIM 4A FISA, 2026).
+**Soufiane TAIQ** – ENSIM 4A FISA, évaluation pratique de Programmation Front-End (2026).
+
 Application Angular 22 (SCSS, sans SSR) qui permet de consulter, créer, booster et faire combattre des Kitsune.
+
+## Prérequis
+
+- Node.js 26 (testé avec la 26.13.1)
+- Angular CLI 22.3 (installée avec les dépendances du projet)
 
 ## Lancer le projet
 
 ```bash
 npm install
-ng serve
+npm start
 ```
 
 Puis ouvrir http://localhost:4200.
+
+## Fonctionnalités
+
+Tout ce que demande le sujet est implémenté :
+
+- [x] **Données** : 5 Kitsune de départ dans le service `GestionKitsunes`, avec tous les attributs demandés.
+- [x] **Liste** (`/kitsunes`) : nom et état de repos uniquement ; un Kitsune boosté a une bordure lumineuse.
+- [x] **Détails** (`/kitsunes/:nom`) : tous les attributs et le bouton de boost (25 % de chance). Le bouton
+      est désactivé si le Kitsune est déjà boosté, ou après 3 échecs d'affilée.
+- [x] **Ajout** (`/ajout`) : formulaire avec validation. Valeurs par défaut : `enRepos = false`,
+      `victoires = 0`, `boost = false`. Un nom déjà pris est refusé.
+- [x] **Introuvable** : titre « Kitsune non trouvé », message demandé et lien vers la liste.
+- [x] **Bataille** (`/bataille`) :
+  - seuls les Kitsune disponibles combattent ;
+  - le bouton « Combat ! » apparaît une fois deux Kitsune choisis, et il est désactivé pendant le combat ;
+  - le résultat s'affiche après 3 secondes ;
+  - le perdant se repose 1 minute ;
+  - les PV restent à leur valeur initiale, le boost est remis à `false` et la sélection est vidée.
+- [x] **Navigation** : barre collée en haut de la page, même au défilement.
 
 ## Arborescence
 
@@ -33,39 +58,56 @@ src/app
 └── app.*                      composant racine
 ```
 
-J'ai rangé les fichiers par fonctionnalité, comme vu en cours, avec un dossier `shared` pour ce qui sert partout.
+Les fichiers sont rangés par fonctionnalité, avec un dossier `shared` pour ce qui sert à plusieurs écrans.
 
 ## Choix techniques
 
 **Données dans un service.** `GestionKitsunes` garde la liste dans un signal privé et n'expose qu'une version
-en lecture seule (`asReadonly()`). Toute modification passe par une méthode du service (`ajouter`,
-`tenterBoost`, `enregistrerCombat`) : les composants ne peuvent pas modifier la liste par erreur.
+en lecture seule (`asReadonly()`). Toute modification passe par une méthode du service : `ajouter`,
+`tenterBoost` ou `enregistrerCombat`. Les composants ne peuvent donc pas modifier la liste par erreur.
 Les mises à jour se font sans muter les objets (`map` + spread), sinon les `computed` ne verraient pas le changement.
 
 **Le nom comme identifiant.** Le sujet impose un nom unique et ne prévoit pas d'`id`. Plutôt que d'ajouter
-un champ, j'utilise le nom dans l'URL : `/kitsunes/Tenko`. La vérification d'unicité ignore la casse et les
-espaces (`"tenko "` est refusé si `Tenko` existe).
+un champ, j'utilise le nom dans l'URL : `/kitsunes/Tenko`. La recherche et la vérification d'unicité suivent
+la même règle, elles ignorent la casse et les espaces autour du nom :
 
-**Écran "introuvable" dans le détail.** Le composant `KitsuneIntrouvable` est affiché par `KitsuneDetail` dans
-un `@else` quand le nom ne correspond à rien. L'URL reste celle demandée, ce qui me paraît plus honnête pour
+- `/kitsunes/tenko` affiche Tenko ;
+- le nom `"tenko "` est refusé à la création si `Tenko` existe.
+
+`routerLink` encode les espaces et les accents dans l'URL, et Angular les décode à la lecture.
+
+**Écran "introuvable" dans le détail.** Quand le nom ne correspond à rien, `KitsuneDetail` affiche le
+composant `KitsuneIntrouvable` dans un `@else`. L'URL reste celle demandée, ce qui me paraît plus clair pour
 l'utilisateur qu'une redirection. Une URL complètement inconnue renvoie vers la liste.
 
-**Boost.** Le tirage (25 %) est fait dans le service. Le compteur d'échecs, lui, est un état d'écran : il vit
-dans le composant et repart à zéro quand on revient sur la page. Le bouton se bloque quand le Kitsune est
-boosté (au chargement ou juste après un tirage réussi) ou après 3 échecs d'affilée.
+**Boost.** Le tirage (25 %) est fait dans le service. Le compteur d'échecs est un état d'écran : il vit dans
+le composant et repart à zéro quand on revient sur la page. Le bouton se bloque dans deux cas :
+
+- le Kitsune est boosté, dès le chargement ou juste après un tirage réussi ;
+- il y a eu 3 échecs d'affilée.
 
 **Combat.** `simulerCombat` est une fonction pure, isolée dans `combat.ts` : elle ne dépend pas d'Angular et
 se lit de haut en bas. Elle travaille sur des copies des PV (doublés si boost), donc les PV d'origine ne sont
-jamais touchés : c'est ce qui assure la règle « remettre les PV à leurs valeurs initiales ».
+jamais modifiés. C'est ce qui assure la règle « remettre les PV à leurs valeurs initiales ».
 Le vainqueur est calculé tout de suite, mais le résultat n'est affiché et enregistré qu'après 3 secondes.
-Le perdant passe en repos et un `setTimeout` le remet disponible au bout d'une minute.
+Le perdant passe en repos, et un `setTimeout` le rend de nouveau disponible au bout d'une minute.
 
-**Formulaire.** J'ai utilisé les Signal Forms (vus en dernier en cours) : le modèle est un signal, les
-validateurs sont déclarés dans le schéma TS (obligatoire, longueur max, minimum à 1, nom unique via
-`validate`). Les attributs `enRepos`, `victoires` et `boost` ne sont pas dans le formulaire, ils prennent leur
-valeur par défaut dans `GestionKitsunes.ajouter`.
+**Formulaire.** Il utilise les Signal Forms : le modèle est un signal, et les validateurs sont déclarés dans
+le schéma TS (champ obligatoire, longueur maximale, minimum à 1, nom unique via `validate`). Les attributs
+`enRepos`, `victoires` et `boost` ne sont pas dans le formulaire : ils prennent leur valeur par défaut dans
+`GestionKitsunes.ajouter`.
 
 **Barre de navigation collée en haut.** `position: sticky` sur le composant hôte (`:host`).
+
+## Interprétations et choix personnels
+
+- **Boost après un combat** : je remets `boost` à `false` uniquement pour les deux Kitsune qui ont combattu,
+  pas pour toute la liste.
+- **Liste** : le sujet n'autorise que `nom` et `enRepos`. Sur la liste, le boost est donc signalé seulement
+  par un style (la bordure lumineuse), sans texte. La pastille « Boosté » apparaît sur les écrans Détails et
+  Bataille.
+- **Kitsune de départ** : inspirés de la mythologie japonaise (Tamamo-no-Mae, Kuzunoha, Tenko…).
+- **Pas d'emojis** dans l'interface : j'ai préféré un badge en CSS, plus sobre.
 
 ## Difficultés rencontrées
 
@@ -77,5 +119,5 @@ valeur par défaut dans `GestionKitsunes.ajouter`.
 ## Limites connues
 
 - Les données sont en mémoire : un rechargement de la page remet la liste de départ.
-- Si l'on quitte l'écran Bataille pendant les 3 secondes, le combat est quand même enregistré
-  (il a déjà eu lieu), on ne voit simplement pas le message de résultat.
+- Si l'on quitte l'écran Bataille pendant les 3 secondes, le combat est quand même enregistré, puisqu'il a
+  déjà eu lieu. On ne voit simplement pas le message de résultat.
