@@ -43,8 +43,8 @@ en lecture seule (`asReadonly()`). Toute modification passe par une méthode du 
 Les mises à jour se font sans muter les objets (`map` + spread), sinon les `computed` ne verraient pas le changement.
 
 **Le nom comme identifiant.** Le sujet impose un nom unique et ne prévoit pas d'`id`. Plutôt que d'ajouter
-un champ, j'utilise le nom dans l'URL : `/kitsunes/Akane`. La vérification d'unicité ignore la casse et les
-espaces (`"akane "` est refusé si `Akane` existe).
+un champ, j'utilise le nom dans l'URL : `/kitsunes/Tenko`. La vérification d'unicité ignore la casse et les
+espaces (`"tenko "` est refusé si `Tenko` existe).
 
 **Écran "introuvable" dans le détail.** Le composant `KitsuneIntrouvable` est affiché par `KitsuneDetail` dans
 un `@else` quand le nom ne correspond à rien. L'URL reste celle demandée, ce qui me paraît plus honnête pour
