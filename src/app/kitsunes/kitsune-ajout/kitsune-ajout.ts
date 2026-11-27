@@ -38,6 +38,12 @@ export class KitsuneAjout {
     (champs) => {
       required(champs.nom, { message: 'Le nom est obligatoire.' });
       maxLength(champs.nom, 30, { message: 'Le nom ne doit pas dépasser 30 caractères.' });
+      // required laisse passer "   ", qui deviendrait un nom vide une fois nettoyé
+      validate(champs.nom, ({ value }) =>
+        value() !== '' && value().trim() === ''
+          ? { kind: 'nomVide', message: 'Le nom ne peut pas contenir que des espaces.' }
+          : undefined,
+      );
       validate(champs.nom, ({ value }) =>
         this.gestionKitsunes.nomDisponible(value())
           ? undefined
