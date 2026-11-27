@@ -1,0 +1,21 @@
+<h1>Les Kitsune</h1>
+
+<ul class="liste">
+  @for (kitsune of kitsunes(); track kitsune.nom) {
+    <li>
+      <a class="carte" [class.booste]="kitsune.boost" [routerLink]="['/kitsunes', kitsune.nom]">
+        <span class="nom">
+          {{ kitsune.nom }}
+          @if (kitsune.boost) {
+            <span class="badge-boost" title="Ce Kitsune est boosté">🔥</span>
+          }
+        </span>
+        <span class="etat" [class.en-repos]="kitsune.enRepos">
+          {{ kitsune.enRepos ? 'En repos' : 'Disponible' }}
+        </span>
+      </a>
+    </li>
+  } @empty {
+    <li class="vide">Aucun Kitsune pour le moment.</li>
+  }
+</ul>

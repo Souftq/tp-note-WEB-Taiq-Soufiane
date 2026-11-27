@@ -1,0 +1,51 @@
+.liste {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 1rem;
+}
+
+.carte {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 2px solid var(--bordure);
+  border-radius: var(--arrondi);
+  background: var(--fond-carte);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.15s,
+    border-color 0.15s;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+  }
+
+  // Un Kitsune boosté brille d'une lueur orangée
+  &.booste {
+    border-color: var(--accent);
+    box-shadow: 0 0 12px var(--accent-lueur);
+  }
+}
+
+.nom {
+  font-weight: 600;
+}
+
+.etat {
+  font-size: 0.85rem;
+  color: var(--succes);
+
+  &.en-repos {
+    color: var(--texte-discret);
+  }
+}
+
+.vide {
+  color: var(--texte-discret);
+}
